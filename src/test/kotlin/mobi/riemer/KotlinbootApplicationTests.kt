@@ -1,15 +1,11 @@
 package mobi.riemer
 
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.junit.*
+import org.junit.runner.*
+import org.springframework.boot.test.context.*
+import org.springframework.test.context.junit4.*
+import org.springframework.test.web.reactive.server.*
+
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
@@ -21,21 +17,19 @@ class KotlinbootApplicationTests {
 
 }
 
-// FIXME (tri, 20170922) Test not running anymore with spring-boot-starter-webflux
-// worked with experimental reactive support
+@RunWith(SpringRunner::class)
+class ApplicationTest {
 
-//@RunWith(SpringRunner::class)
-//@WebMvcTest
-//class ApplicationTest {
-//
-//    @Autowired
-//    private lateinit var mockMvc: MockMvc
-//
-//    @Test
-//    fun helloWorldShouldWork() {
-//        mockMvc
-//                .perform(get("/hello").param("name", "World"))
-//                .andExpect(status().isOk)
-//                .andExpect(content().string("Hello, World\n"))
-//    }
-//}
+    private val webTestClient = WebTestClient
+            .bindToController(KotlinbootApplication.HelloWorldController())
+            .build()!!
+
+    @Test
+    fun helloWorldShouldWork() {
+        webTestClient
+                .get().uri("/hello?name=World")
+                .exchange().expectStatus().isOk
+                //.expectBody(String::class.java).isEqualTo<Nothing>("Hello, World\n")        //fixed with KT-5464 in Kotlin 1.2
+                .expectBody().equals("Hello, World\n")
+    }
+}
