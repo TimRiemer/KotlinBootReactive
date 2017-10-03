@@ -1,28 +1,26 @@
 package mobi.riemer
 
-import org.junit.*
-import org.junit.runner.*
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.extension.*
 import org.springframework.boot.test.context.*
-import org.springframework.test.context.junit4.*
+import org.springframework.test.context.junit.jupiter.*
 import org.springframework.test.web.reactive.server.*
 
 
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @SpringBootTest
 class KotlinbootApplicationTests {
 
     @Test
     fun contextLoads() {
     }
-
 }
 
-@RunWith(SpringRunner::class)
 class ApplicationTest {
 
     private val webTestClient = WebTestClient
             .bindToController(KotlinbootApplication.HelloWorldController())
-            .build()!!
+            .build()
 
     @Test
     fun helloWorldShouldWork() {
