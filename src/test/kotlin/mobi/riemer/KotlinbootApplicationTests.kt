@@ -19,15 +19,24 @@ class KotlinbootApplicationTests {
 class ApplicationTest {
 
     private val webTestClient = WebTestClient
-            .bindToController(KotlinbootApplication.HelloWorldController())
+            .bindToRouterFunction(Router(Handler()).routes())
             .build()
 
     @Test
-    fun helloWorldShouldWork() {
+    fun helloShouldReturnStatusOkAndBodyShouldContainParameter() {
         webTestClient
-                .get().uri("/hello?name=World")
+                .get().uri("/hello?name=Spring")
                 .exchange().expectStatus().isOk
-                //.expectBody(String::class.java).isEqualTo<Nothing>("Hello, World\n")        //fixed with KT-5464 in Kotlin 1.2
-                .expectBody().equals("Hello, World\n")
+                //.expectBody(String::class.java).isEqualTo<Nothing>("Hello, Spring\n")        //fixed with KT-5464 in Kotlin 1.2
+                .expectBody().equals("Hello, Spring\n")
+    }
+
+    @Test
+    fun helloShouldReturnStatusOkAndWithoutParameterBodyShouldContainKotlin() {
+        webTestClient
+                .get().uri("/hello?name=Kotlin")
+                .exchange().expectStatus().isOk
+                //.expectBody(String::class.java).isEqualTo<Nothing>("Hello, Kotlin\n")        //fixed with KT-5464 in Kotlin 1.2
+                .expectBody().equals("Hello, Kotlin\n")
     }
 }

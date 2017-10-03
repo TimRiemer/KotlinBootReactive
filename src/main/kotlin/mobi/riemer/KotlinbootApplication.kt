@@ -1,25 +1,41 @@
 package mobi.riemer
 
 import org.springframework.boot.SpringApplication.run
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.boot.autoconfigure.*
+import org.springframework.context.*
+import org.springframework.context.support.*
+import org.springframework.http.MediaType.TEXT_HTML
+import org.springframework.web.reactive.function.server.*
+import org.springframework.web.reactive.function.server.ServerResponse.ok
+import reactor.core.publisher.*
 
 @SpringBootApplication
-class KotlinbootApplication {
+class KotlinbootApplication : ApplicationContextInitializer<GenericApplicationContext> {
 
-    @RestController
-    @RequestMapping(value = "/hello")
-    class HelloWorldController {
-        @GetMapping
-        fun helloWorld(@RequestParam name: String) = "Hello, $name\n"
-    }
+    override fun initialize(applicationContext: GenericApplicationContext) = beans {
+        bean<Handler>()
+        bean {
+            Router(ref()).routes()
+        }
+    }.initialize(applicationContext)
 }
 
 fun main(args: Array<String>) {
     run(KotlinbootApplication::class.java, * args)
 }
 
+class Handler {
+    fun hello(req: ServerRequest): Mono<ServerResponse> =
+            ok().body(
+                    Mono.just("Hello, ${req.queryParam("name").orElse("Kotlin")}"),
+                    String::class.java
+            )
+}
 
+class Router(private val handler: Handler) {
+    fun routes() = router {
+        ("/" and accept(TEXT_HTML)).nest {
+            GET("/hello", handler::hello)
+        }
+    }
+}
