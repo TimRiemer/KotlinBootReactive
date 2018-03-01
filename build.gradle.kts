@@ -4,12 +4,10 @@ import org.gradle.kotlin.dsl.*
 buildscript {
     repositories {
         mavenCentral()
-        maven("https://repo.spring.io/milestone")
-        maven("https://repo.spring.io/snapshot")
     }
 
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.BUILD-SNAPSHOT")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE")
         classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.0")
     }
 }
@@ -23,7 +21,7 @@ tasks.withType<KotlinCompile> {
 }
 
 plugins {
-    val kotlinVersion = "1.1.51"
+    val kotlinVersion = "1.2.20"
 
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
@@ -37,8 +35,6 @@ apply {
 
 repositories {
     mavenCentral()
-    maven("https://repo.spring.io/milestone")
-    maven("https://repo.spring.io/snapshot")
 }
 
 dependencies {
@@ -56,4 +52,8 @@ dependencies {
     testCompile("org.junit.jupiter:junit-jupiter-api")
     testRuntime("org.junit.jupiter:junit-jupiter-engine")
     testCompile("io.projectreactor:reactor-test")
+}
+
+task<Wrapper>("wrapper") {
+    gradleVersion = "4.6"
 }
