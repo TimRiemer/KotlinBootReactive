@@ -3,4 +3,4 @@
 Little reactive web demo with the new Spring Boot Webflux Starter.
 Migrated from experimental reactive project to the new starter and a working Kotlin DSL Gradle build.
 
-Using Gradle 4.6, Kotlin 1.2.20 and Spring Boot 2.0.0-RELEASE
+Using Gradle 4.6, Kotlin 1.2.30 and Spring Boot 2.0.0-RELEASE
