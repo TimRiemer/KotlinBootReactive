@@ -7,12 +7,11 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
-        classpath("org.junit.platform:junit-platform-gradle-plugin:1.1.1")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE")
     }
 }
 
-version = "1.1.0-SNAPSHOT"
+version = "1.2.0-SNAPSHOT"
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
@@ -21,16 +20,15 @@ tasks.withType<KotlinCompile> {
 }
 
 plugins {
-    val kotlinVersion = "1.2.40"
+    val kotlinVersion = "1.2.70"
 
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
-    id("io.spring.dependency-management") version "1.0.5.RELEASE"
+    id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
 
 apply {
     plugin("org.springframework.boot")
-    plugin("org.junit.platform.gradle.plugin")
 }
 
 repositories {
@@ -55,5 +53,5 @@ dependencies {
 }
 
 task<Wrapper>("wrapper") {
-    gradleVersion = "4.7"
+    gradleVersion = "4.10.1"
 }
