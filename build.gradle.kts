@@ -20,7 +20,7 @@ tasks.withType<KotlinCompile> {
 }
 
 plugins {
-    val kotlinVersion = "1.2.70"
+    val kotlinVersion = "1.3.0"
 
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
@@ -41,7 +41,7 @@ dependencies {
         exclude(module = "hibernate")
     }
 
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
 
     testCompile("org.springframework.boot:spring-boot-starter-test") {
